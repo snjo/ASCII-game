@@ -1,0 +1,5 @@
+D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\bin\Release\Asciigame.exe.config
+D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\bin\Release\Asciigame.exe
+D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\bin\Release\Asciigame.pdb
+D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\obj\Release\Asciigame.exe
+D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\obj\Release\Asciigame.pdb
