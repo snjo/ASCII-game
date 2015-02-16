@@ -10,3 +10,9 @@ D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\obj\Debug\Asciigame.pdb
 D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\bin\Debug\Asciigame.exe
 D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\bin\Debug\Asciigame.pdb
 D:\Dropbox\ASCII games\ASCIIgame\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe.config
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.exe
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.pdb
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.pdb
+D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache
