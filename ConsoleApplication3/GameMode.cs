@@ -12,7 +12,7 @@ namespace Asciigame
     {
         public Game game;
         public bool exitGameMode = false;
-
+        
         public virtual void Start(Game _game)
         {
             exitGameMode = false;

@@ -15,6 +15,12 @@ namespace Asciigame
         private int currentCharPos = 0;
         private int currentLinePos = 0;
 
+        private int paddingTop = 2;
+
+        DateTime clock = new DateTime();
+        bool clockRunning = false;
+        double secondsSinceStart = 0;
+
         private static TypingTest _instance;
         public static TypingTest Instance
         {
@@ -32,7 +38,7 @@ namespace Asciigame
         {
             base.Start(_game);
             Console.Clear();
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, paddingTop);
             loadText();
             formatText();
             displayText();
@@ -42,33 +48,50 @@ namespace Asciigame
         public override void Update()
         {
             base.Update();
+            if (clockRunning) updateClock();
+            updateStatusText();
+            if (exitGameMode) return;
             char key = Console.ReadKey(true).KeyChar;
             char expectedKey = getExpectedKey(currentCharPos);            
             if (key == expectedKey)
             {
-                if (atEndOfText) return;
-                Console.SetCursorPosition(currentCharPos, currentLinePos);
+                if (atEndOfText)
+                {
+                    stopClock();
+                    return;
+                }
+                Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.Write(key);
 
                 typeHeadForward();
+                if (!clockRunning)
+                {
+                    Debug.Write("Starting Clock");
+                    startClock();
+                }
             }
             else if (key == (char)8)
             {
                 typeHeadBack();
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(currentCharPos, currentLinePos);
+                Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
                 Console.Write(getExpectedKey(currentCharPos));                    
             }
             else if (key == (char)27)
             {
+                stopClock();
                 RequestTermination();
             }
             else
             {
-                if (atEndOfText) return;
+                if (atEndOfText)
+                {
+                    stopClock();
+                    return;
+                }
                 Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.SetCursorPosition(currentCharPos, currentLinePos);
+                Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
                 Console.Write(expectedKey);
                 typeHeadForward();
             }
@@ -165,6 +188,49 @@ namespace Asciigame
             {
                 Console.WriteLine(textLines[i]);
             }
+        }
+
+        private void startClock()
+        {
+            clock = DateTime.Now;            
+            clockRunning = true;
+            secondsSinceStart = 0;
+        }
+
+        private void stopClock()
+        {
+            clockRunning = false;
+        }
+
+        private void updateClock()
+        {
+            secondsSinceStart = (DateTime.Now - clock).TotalSeconds;
+        }
+
+        private void updateStatusText()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write("WPM: " + GetWordsPerMinute() + ", Chars written: " + GetCharactersWritten() + "               ");
+        }
+
+        private int GetWordsPerMinute()
+        {
+            Debug.WriteLine(clock + " / " + secondsSinceStart);
+            if (secondsSinceStart > 1)
+                return (int)((GetCharactersWritten() / 5) / (secondsSinceStart / 60d));
+            else return 0;
+        }
+
+        private int GetCharactersWritten()
+        {
+            int result = 0;
+            for (int i = 0; i < currentLinePos; i++)
+            {
+                result += textLines[i].Length;
+            }
+            result += currentCharPos;
+            return result;
         }
     }
 }
