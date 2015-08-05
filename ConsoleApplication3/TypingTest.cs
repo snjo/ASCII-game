@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Asciigame
 {
     class TypingTest : GameMode
     {
-        private string text;
+        public string text;
+        public int selectedTextNumber = 0;
         private List<string> textLines;
 
         private int currentCharPos = 0;
@@ -36,22 +38,58 @@ namespace Asciigame
 
         public override void Start(Game _game)
         {
+            userSelectText();
+
+            resetCounters();
             base.Start(_game);
             Console.Clear();
             Console.SetCursorPosition(0, paddingTop);
-            loadText();
+            loadText(selectedTextNumber);
             formatText();
             displayText();
-            Console.ReadKey(false);
+            //Console.ReadKey(false);
+        }
+
+        private void resetCounters()
+        {
+            currentCharPos = 0;
+            currentLinePos = 0;
+            secondsSinceStart = 0;
+            clockRunning = false;
+        }
+
+        private void userSelectText()
+        {
+            Console.Clear();
+            Console.WriteLine("Select Text");
+            Console.ReadKey();
+            Console.WriteLine();
+            for (int i = 0; i < 100; i++)
+            {
+                string newText = loadText(i);
+                if (newText == string.Empty)
+                    break;
+                Console.WriteLine(i + ": " + newText.Substring(0,30) + "...");
+            }
+
+            string userInput = Console.ReadLine();
+            int selection = 0;
+            if (int.TryParse(userInput, out selection))
+            {
+                selectedTextNumber = selection;
+            }
         }
 
         public override void Update()
         {
             base.Update();
+
             if (clockRunning) updateClock();
             updateStatusText();
             if (exitGameMode) return;
-            char key = Console.ReadKey(true).KeyChar;
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            char key = keyInfo.KeyChar;
+            
             char expectedKey = getExpectedKey(currentCharPos);            
             if (key == expectedKey)
             {
@@ -95,7 +133,7 @@ namespace Asciigame
                 Console.Write(expectedKey);
                 typeHeadForward();
             }
-        }
+        }        
 
         private bool atEndOfText
         {
@@ -143,10 +181,27 @@ namespace Asciigame
             return expectedKey;
         }
 
-        private void loadText() // make sure the text has a trailing space
+        private string loadText(int textNumber) // make sure the text has a trailing space
         {
-            //text = "A typewriter is a mechanical or electromechanical machine for writing in characters similar to those produced by printer's movable type by means of keyboard-operated types striking a ribbon to transfer ink or carbon impressions onto the paper. Typically one character is printed per keypress. The machine prints characters by making ink impressions of type elements similar to the sorts used in movable type letterpress printing. ";
-            text = "A typewriter is a mechanical or electromechanical machine for writing in characters similar to those produced by printer's movable type by means of keyboard-operated types striking a ribbon to transfer ink. ";
+            switch (textNumber)
+            {
+                case 0:
+                    text = "A typewriter is a mechanical or electromechanical machine for writing in characters similar to those produced by printer's movable type by means of keyboard-operated types striking a ribbon to transfer ink. ";
+                    break;
+                case 1:
+                    text = "Fare for vådeskudd. Det at politiet tar ladegrep når de skal gå inn i en skarp situasjon og dermed har et skuddklart våpen, er jo helt greit. Men at politiet skal gå rundt med skuddklare våpen i Oslos og Bergens gater i påvente av at noe dramatisk skal skje, er å gå altfor langt. Til det er faren for vådeskudd og uheldige hendelser altfor høy, sier Berg-Knutsen. ";
+                    break;
+                case 2:
+                    text = "Ber politiet endre praksis. Nå viser det seg i tillegg at en politimann i april i år avfyrte et vådeskudd inne på politistasjonen i Kristiansund. Det er VG som melder dette tirsdag kveld. Hendelsen er under etterforskning av spesialenheten for politisaker. ";
+                    break;
+                case 3:
+                    text = "\"The Brink\" er en ny HBO-komiserie som fokuserer på en geopolitisk krise og dens effekt på tre uforenelige og desperate menn: Walter Larson, USAs utenriksminister, Alex Talbott, en diplomat stasjonert i Islamabad, og Zeke \"Z-Pak\" Tilson, en jagerpilot med en lukrativ sidegeskjeft hvor han selger reseptbelagte medisiner. Denne episke mørke komiserien begynner med at det er fare for kupp i Pakistan. En kjeltring av en general tar kontroll over landet og atomvåpnene der, noe som gjør at verden må stole på disse tre utypiske amerikanske heltene. Fra de turbulente gatene i Midtøsten til Det Hvite Hus og et krigsskip i Rødehavet: \"The Brink\" tar oss med på en vill reise gjennom mange tidssoner for å vise oss hvordan svakhetene, egoene og rivaliseringen til politiske ledere kan føre oss til randen av en ny verdenskrig. ";
+                    break;
+                default:
+                    text = string.Empty;
+                    break;
+            }
+            return text;
         }
 
         private void formatText()
