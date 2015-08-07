@@ -5,15 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Asciigame
 {
     class TypingTest : GameMode
     {
         public string text;
+        public textError[] errorArray;
         public int selectedTextNumber = 0;
         private List<string> textLines;
 
+        private int currentTextPosition = 0;
         private int currentCharPos = 0;
         private int currentLinePos = 0;
 
@@ -22,6 +25,17 @@ namespace Asciigame
         DateTime clock = new DateTime();
         bool clockRunning = false;
         double secondsSinceStart = 0;
+
+        string exeLocation;
+        string path;
+
+        public enum textError
+        {
+            Blank,
+            Correct,
+            WasCorrected,
+            Typo,
+        }
 
         private static TypingTest _instance;
         public static TypingTest Instance
@@ -38,13 +52,16 @@ namespace Asciigame
 
         public override void Start(Game _game)
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;            
+            exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = System.IO.Path.GetDirectoryName(exeLocation);
             userSelectText();
 
             resetCounters();
             base.Start(_game);
             Console.Clear();
             Console.SetCursorPosition(0, paddingTop);
-            loadText(selectedTextNumber);
+            loadText(selectedTextNumber);            
             formatText();
             displayText();
             //Console.ReadKey(false);
@@ -52,6 +69,7 @@ namespace Asciigame
 
         private void resetCounters()
         {
+            currentTextPosition = 0;
             currentCharPos = 0;
             currentLinePos = 0;
             secondsSinceStart = 0;
@@ -61,22 +79,74 @@ namespace Asciigame
         private void userSelectText()
         {
             Console.Clear();
-            Console.WriteLine("Select Text");
+
             Console.ReadKey();
+            Console.WriteLine("Select Text by typing its name and pressing Enter");
             Console.WriteLine();
-            for (int i = 0; i < 100; i++)
-            {
-                string newText = loadText(i);
-                if (newText == string.Empty)
-                    break;
-                Console.WriteLine(i + ": " + newText.Substring(0,30) + "...");
-            }
+            ListFilesInFolder();
+            //listTextsInVariables();
 
             string userInput = Console.ReadLine();
             int selection = 0;
             if (int.TryParse(userInput, out selection))
             {
                 selectedTextNumber = selection;
+            }
+            else
+            {
+                readTextFromFile(userInput);
+            }
+        }
+
+        private void listTextsInVariables()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                string newText = loadText(i);
+                if (newText == string.Empty || newText == "No text loaded ")
+                    break;
+                Console.WriteLine(i + ": " + previewText(newText) + "...");
+            }
+        }
+
+        private string previewText(string longText)
+        {
+            return longText.Substring(0,Math.Min(Math.Max(0, longText.Length),40));
+        }
+
+        private void ListFilesInFolder()
+        {
+            string textFolder = path + "\\text";
+            if (Directory.Exists(textFolder))
+            {
+                string[] filesInFolder = Directory.GetFiles(textFolder, "*.txt");
+                foreach (string fileName in filesInFolder)
+                {
+                    Console.Write(Path.GetFileNameWithoutExtension(fileName));
+                    Console.WriteLine(": " + previewText(File.ReadAllLines(fileName)[0]) + "...");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No folder called " + textFolder);
+            }
+        }
+
+        private void readTextFromFile(string userInput)
+        {            
+            Debug.WriteLine("paths: " + exeLocation + " --- " + path);            
+            string filepath = path + "\\text\\" + userInput + ".txt";
+            if (File.Exists(filepath))
+            {
+                Debug.WriteLine("File exists");
+                text = File.ReadAllText(filepath);
+                if (text.Length < 1) selectedTextNumber = 0;
+                selectedTextNumber = -1;
+            }
+            else
+            {
+                Debug.WriteLine("File missing: " + filepath);
+                selectedTextNumber = 0;
             }
         }
 
@@ -98,9 +168,28 @@ namespace Asciigame
                     stopClock();
                     return;
                 }
+                
+                if (errorArray[currentTextPosition] == textError.Typo || errorArray[currentTextPosition] == textError.WasCorrected)
+                {
+                    errorArray[currentTextPosition] = textError.WasCorrected;
+                }
+                else
+                {
+                    errorArray[currentTextPosition] = textError.Correct;
+                }
+
                 Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                if (errorArray[currentTextPosition] == textError.Correct)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkYellow;
+                }
                 Console.Write(key);
+
+                
 
                 typeHeadForward();
                 if (!clockRunning)
@@ -128,12 +217,13 @@ namespace Asciigame
                     stopClock();
                     return;
                 }
+                errorArray[currentTextPosition] = textError.Typo;
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
                 Console.Write(expectedKey);
                 typeHeadForward();
             }
-        }        
+        }
 
         private bool atEndOfText
         {
@@ -145,6 +235,7 @@ namespace Asciigame
 
         private void typeHeadForward()
         {
+            currentTextPosition++;
             currentCharPos++;
             if (currentCharPos > textLines[currentLinePos].Length - 1)
             {
@@ -154,12 +245,16 @@ namespace Asciigame
                     currentLinePos++;
                 }
                 else
+                {
+                    currentTextPosition--;
                     currentCharPos--;
+                }
             }
         }
 
         private void typeHeadBack()
         {
+            currentTextPosition--;
             currentCharPos--;
             if (currentCharPos < 0)
             {
@@ -185,6 +280,9 @@ namespace Asciigame
         {
             switch (textNumber)
             {
+                case -1:
+                    //got text from file
+                    break;
                 case 0:
                     text = "A typewriter is a mechanical or electromechanical machine for writing in characters similar to those produced by printer's movable type by means of keyboard-operated types striking a ribbon to transfer ink. ";
                     break;
@@ -198,14 +296,16 @@ namespace Asciigame
                     text = "\"The Brink\" er en ny HBO-komiserie som fokuserer på en geopolitisk krise og dens effekt på tre uforenelige og desperate menn: Walter Larson, USAs utenriksminister, Alex Talbott, en diplomat stasjonert i Islamabad, og Zeke \"Z-Pak\" Tilson, en jagerpilot med en lukrativ sidegeskjeft hvor han selger reseptbelagte medisiner. Denne episke mørke komiserien begynner med at det er fare for kupp i Pakistan. En kjeltring av en general tar kontroll over landet og atomvåpnene der, noe som gjør at verden må stole på disse tre utypiske amerikanske heltene. Fra de turbulente gatene i Midtøsten til Det Hvite Hus og et krigsskip i Rødehavet: \"The Brink\" tar oss med på en vill reise gjennom mange tidssoner for å vise oss hvordan svakhetene, egoene og rivaliseringen til politiske ledere kan føre oss til randen av en ny verdenskrig. ";
                     break;
                 default:
-                    text = string.Empty;
+                    text = "No text loaded ";
                     break;
             }
+            errorArray = new textError[text.Length];
             return text;
         }
 
         private void formatText()
         {
+            Debug.WriteLine("Formatting string: " + text);
             textLines = new List<string>();
             int bufferWidth = 62;//game.bufferSize.x;
             for (int i = 0; i < text.Length; )
@@ -266,7 +366,39 @@ namespace Asciigame
         {
             Console.SetCursorPosition(0, 0);
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write("WPM: " + GetWordsPerMinute() + ", Chars written: " + GetCharactersWritten() + "               ");
+            Console.Write("WPM: " + GetWordsPerMinute() + ", Chars written: " + GetCharactersWritten() + "               ");            
+            Console.Write("Score: " + GetScore());
+            Console.Write("  " + GetStarRating());
+        }
+
+        private string GetStarRating()
+        {
+            int score = GetScore();
+            string starText = "     ";
+            if (score >= 1500) starText = "*    ";
+            if (score >= 2000) starText = "**   ";
+            if (score >= 2500) starText = "***  ";
+            if (score >= 3000) starText = "**** ";
+            if (score >= 4000) starText = "*****";
+
+            return starText;
+        }
+
+        private int GetScore()
+        {
+            float baseScore = errorArray.Length * 2;
+            Debug.WriteLine("bs1: " + baseScore);
+            for (int i = 0; i < errorArray.Length; i++)
+            {
+                if (errorArray[i] == textError.Blank)
+                    baseScore -= 2;
+                else
+                    baseScore -= (int)errorArray[i] - 1;
+            }
+            Debug.WriteLine("bs2: " + baseScore);
+            baseScore = (baseScore / 2f) / errorArray.Length;
+            Debug.WriteLine("Basescore = " + baseScore);
+            return (int)(baseScore * GetWordsPerMinute() * 100);
         }
 
         private int GetWordsPerMinute()
