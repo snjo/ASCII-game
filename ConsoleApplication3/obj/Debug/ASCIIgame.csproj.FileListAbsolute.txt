@@ -16,9 +16,9 @@ D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.pdb
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.pdb
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache
-D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe.config
-D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.exe
-D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.pdb
-D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe
-D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.pdb
 D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.exe.config
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.exe
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.pdb
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.exe
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.pdb

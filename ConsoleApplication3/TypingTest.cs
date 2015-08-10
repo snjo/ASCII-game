@@ -52,13 +52,14 @@ namespace Asciigame
 
         public override void Start(Game _game)
         {
+            base.Start(_game);
             Console.OutputEncoding = System.Text.Encoding.Unicode;            
             exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
             path = System.IO.Path.GetDirectoryName(exeLocation);
             userSelectText();
 
             resetCounters();
-            base.Start(_game);
+            
             Console.Clear();
             Console.SetCursorPosition(0, paddingTop);
             loadText(selectedTextNumber);            
@@ -80,15 +81,19 @@ namespace Asciigame
         {
             Console.Clear();
 
-            Console.ReadKey();
-            Console.WriteLine("Select Text by typing its name and pressing Enter");
+            //Console.ReadKey();
+            Console.WriteLine("Select Text by typing its name and pressing Enter, Q to quit");
             Console.WriteLine();
             ListFilesInFolder();
             //listTextsInVariables();
 
             string userInput = Console.ReadLine();
             int selection = 0;
-            if (int.TryParse(userInput, out selection))
+            if (userInput == "Q" || userInput == "q")
+            {
+                game.terminateApplication = true;
+            }
+            else if (int.TryParse(userInput, out selection))
             {
                 selectedTextNumber = selection;
             }
@@ -208,7 +213,8 @@ namespace Asciigame
             else if (key == (char)27)
             {
                 stopClock();
-                RequestTermination();
+                Start(game);
+                //RequestTermination();
             }
             else
             {

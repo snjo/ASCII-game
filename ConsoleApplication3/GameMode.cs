@@ -54,6 +54,7 @@ namespace Asciigame
 
         public virtual void Quit()
         {
+            if (game == null) Debug.WriteLine("no game!");
             game.setGameMode(game.GetMainMenu);
         }
 

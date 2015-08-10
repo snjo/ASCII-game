@@ -15,13 +15,11 @@ namespace Asciigame
         private enum MainMenuItems
         {
             Typing_Test,
-            Star_Field,
-            Random_Junk,
             Options,
             Quit,
             END
         }
-        private MainMenuItems MenuSelection = MainMenuItems.Star_Field;
+        private MainMenuItems MenuSelection = MainMenuItems.Typing_Test;
 
         public override void Start(Game _game)
         {
@@ -85,12 +83,6 @@ namespace Asciigame
             {
                 case MainMenuItems.Typing_Test:
                     game.setGameMode(TypingTest.Instance);
-                    break;
-                case MainMenuItems.Star_Field:
-                    game.setGameMode(StarField.Instance);
-                    break;
-                case MainMenuItems.Random_Junk:
-                    game.setGameMode(new RandomJunk());
                     break;
                 case MainMenuItems.Quit:
                     Quit();

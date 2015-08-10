@@ -71,7 +71,7 @@ namespace Asciigame
             //MainThread.Name = "GameLogic";
             //ConsoleKeyListener.Name = "KeyListener";
             
-            setGameMode(new MainMenu());
+            setGameMode(new TypingTest());
 
             //ConsoleKeyListener.Start();
             //MainThread.Start();
