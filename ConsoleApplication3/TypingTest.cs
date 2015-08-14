@@ -26,8 +26,11 @@ namespace Asciigame
         bool clockRunning = false;
         double secondsSinceStart = 0;
 
-        string exeLocation;
-        string path;
+        public static string exeLocation;
+        public static string path;
+
+        private HighScore highScore = new HighScore();
+        private string currentTextName = string.Empty;
 
         public enum textError
         {
@@ -56,6 +59,8 @@ namespace Asciigame
             Console.OutputEncoding = System.Text.Encoding.Unicode;            
             exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
             path = System.IO.Path.GetDirectoryName(exeLocation);
+
+            highScore.readScoresFromFile();
             userSelectText();
 
             resetCounters();
@@ -127,8 +132,10 @@ namespace Asciigame
                 string[] filesInFolder = Directory.GetFiles(textFolder, "*.txt");
                 foreach (string fileName in filesInFolder)
                 {
-                    Console.Write(Path.GetFileNameWithoutExtension(fileName));
-                    Console.WriteLine(": " + previewText(File.ReadAllLines(fileName)[0]) + "...");
+                    string shortName = Path.GetFileNameWithoutExtension(fileName);
+                    Console.Write(shortName);
+                    Console.Write(": " + previewText(File.ReadAllLines(fileName)[0]) + "...");
+                    Console.WriteLine(" " + highScore.getScore(shortName));
                 }
             }
             else
@@ -147,11 +154,13 @@ namespace Asciigame
                 text = File.ReadAllText(filepath);
                 if (text.Length < 1) selectedTextNumber = 0;
                 selectedTextNumber = -1;
+                currentTextName = userInput;
             }
             else
             {
                 Debug.WriteLine("File missing: " + filepath);
                 selectedTextNumber = 0;
+                currentTextName = "0";
             }
         }
 
@@ -221,6 +230,7 @@ namespace Asciigame
                 if (atEndOfText)
                 {
                     stopClock();
+                    highScore.updateScore(currentTextName, GetScore());
                     return;
                 }
                 errorArray[currentTextPosition] = textError.Typo;

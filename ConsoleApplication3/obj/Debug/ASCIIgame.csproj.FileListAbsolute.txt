@@ -34,3 +34,15 @@ D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.exe.ma
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.application
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.exe.manifest
 D:\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.application
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\a.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\b.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\c.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\ch.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\d.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\text\e.txt
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.exe.manifest
+D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Touch typing.application
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.Properties.Resources.resources
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csproj.GenerateResource.Cache
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.exe.manifest
+D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Touch typing.application

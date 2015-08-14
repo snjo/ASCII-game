@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameMode.cs" />
+    <Compile Include="HighScore.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
