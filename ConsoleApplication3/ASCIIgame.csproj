@@ -89,6 +89,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="TextScore.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="TypingTest.cs" />
   </ItemGroup>

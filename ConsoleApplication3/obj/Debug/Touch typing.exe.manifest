@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Touch typing.exe" size="22528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Touch typing.exe" size="24064">
       <assemblyIdentity name="Touch typing" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PPycQ4gcTE4YqQXOkTMKBFiLNLfm8Y9Waif7hNqMtcI=</dsig:DigestValue>
+        <dsig:DigestValue>7jJHeqqGOOz16CaW8eBCCM/2thnuogKxk77HHkh50gU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,13 +98,13 @@
       <dsig:DigestValue>6bPE4AUdZQnsZC6KRsksy6Pm9JjSGDhY21aBaC49+jk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="text\e.txt" size="836">
+  <file name="text\e.txt" size="36">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>J/EzqDzSyQe0SYnfJf/puuuTXE/VjKNnfmXv3Ai+SX8=</dsig:DigestValue>
+      <dsig:DigestValue>/NVMomBnFWFt3Egyw3bf6BuXLW2FQahNtR3xhXMU6As=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Touch typing.exe.config" size="187">

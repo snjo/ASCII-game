@@ -32,6 +32,8 @@ namespace Asciigame
         private HighScore highScore = new HighScore();
         private string currentTextName = string.Empty;
 
+        private TextScore textScore;
+
         public enum textError
         {
             Blank,
@@ -60,7 +62,11 @@ namespace Asciigame
             exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
             path = System.IO.Path.GetDirectoryName(exeLocation);
 
+            Console.Clear();
+
             highScore.readScoresFromFile();
+            highScore.displayTypoCharacters(highScore.typoCharacters, 0, Console.WindowHeight, 10);
+            
             userSelectText();
 
             resetCounters();
@@ -80,16 +86,16 @@ namespace Asciigame
             currentLinePos = 0;
             secondsSinceStart = 0;
             clockRunning = false;
+            textScore = new TextScore(currentTextName);
         }
 
         private void userSelectText()
-        {
-            Console.Clear();
-
+        {           
             //Console.ReadKey();
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("Select Text by typing its name and pressing Enter, Q to quit");
             Console.WriteLine();
-            ListFilesInFolder();
+            ListFilesInFolder();            
             //listTextsInVariables();
 
             string userInput = Console.ReadLine();
@@ -179,7 +185,7 @@ namespace Asciigame
             {
                 if (atEndOfText)
                 {
-                    stopClock();
+                    endOfTextUpdate();
                     return;
                 }
                 
@@ -229,16 +235,25 @@ namespace Asciigame
             {
                 if (atEndOfText)
                 {
-                    stopClock();
-                    highScore.updateScore(currentTextName, GetScore());
+                    endOfTextUpdate();
                     return;
                 }
                 errorArray[currentTextPosition] = textError.Typo;
                 Console.BackgroundColor = ConsoleColor.DarkRed;
+                textScore.addTypoCharacter(expectedKey);
                 Console.SetCursorPosition(currentCharPos, currentLinePos + paddingTop);
                 Console.Write(expectedKey);
                 typeHeadForward();
             }
+        }
+
+        private void endOfTextUpdate()
+        {
+            stopClock();
+            highScore.updateScore(currentTextName, GetScore());
+            Console.SetCursorPosition(0, 10);
+            highScore.displayTypoCharacters(textScore.typoCharacters, 0, Console.WindowHeight, 10);
+            highScore.addTyposToCharDictionary(textScore.typoCharacters);
         }
 
         private bool atEndOfText
