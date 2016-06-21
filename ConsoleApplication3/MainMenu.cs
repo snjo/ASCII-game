@@ -14,6 +14,7 @@ namespace Asciigame
 
         private enum MainMenuItems
         {
+            Clicker,
             Typing_Test,
             Star_Field,
             Random_Junk,
@@ -83,6 +84,9 @@ namespace Asciigame
         {
             switch (selection)
             {
+                case MainMenuItems.Clicker:
+                    game.setGameMode(ClickerGame.Instance);
+                    break;
                 case MainMenuItems.Typing_Test:
                     game.setGameMode(TypingTest.Instance);
                     break;

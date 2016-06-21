@@ -22,3 +22,9 @@ D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.pdb
 D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe
 D:\Github\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.pdb
 D:\Github\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe.config
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.exe
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\Asciigame.pdb
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.exe
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\bin\Debug\Asciigame.pdb
+C:\Users\aao\Documents\GitHub\ASCII-game\ConsoleApplication3\obj\Debug\ASCIIgame.csprojResolveAssemblyReference.cache

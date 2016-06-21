@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clicker.cs" />
+    <Compile Include="Clicker\Stat.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="MainMenu.cs" />
