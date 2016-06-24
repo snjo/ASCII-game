@@ -8,6 +8,16 @@ namespace Asciigame
 {
     class Tools
     {
+        static public string secToTimeString(float seconds)
+        {
+            TimeSpan t = TimeSpan.FromSeconds(seconds);
+            string result = string.Empty;
+            if (t.Days > 0) result += t.Days + "d";
+            if (t.Hours > 0 || t.Days > 0) result += t.Hours + "h";
+            if (t.Minutes > 0 || t.Hours > 0 || t.Days > 0) result += t.Minutes + "m";
+            if (t.Days <= 0) result += t.Seconds + "s"; //don't show seconds if there are days, to save space
+            return result;
+        }
     }
 
     public struct Vector2

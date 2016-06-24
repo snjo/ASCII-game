@@ -12,10 +12,11 @@ namespace Asciigame.Clicker
         public int level = 0;
         public float baseTimeToFirstLevel = 5f;
         public float basetimeToNextLevel = 5f;
-        public float difficultyMultiplier = 1.25f;
+        public float difficultyMultiplier = 10f;
         public float progressInSeconds = 0f;
         public int multiplier = 1;
         public bool trainingActive = false;
+        public int timeSlots = 1;
 
         public Stat(string name)
         {
@@ -78,17 +79,26 @@ namespace Asciigame.Clicker
             }
         }
 
-
-
         public void drawStatBar(int x, int y, int length)
         {
+            drawStatBar(x, y, length, ConsoleColor.White);
+        }
+
+        public void drawStatBar(int x, int y, int length, ConsoleColor textColor)
+        {
+            drawStatBar(x, y, length, textColor, ConsoleColor.DarkGreen, ConsoleColor.Gray);
+        }
+
+        public void drawStatBar(int x, int y, int length, ConsoleColor textColor, ConsoleColor barColorActive, ConsoleColor barColorPassive)
+        {
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = textColor;
             Console.SetCursorPosition(x, y);
             Console.Write(name.PadRight(16));
             int blocksToFill = (int)(progressNormalized * (length * 1.1f));  //adding a bit to length so that the last block get used.
-            string time = ((int)secondsToNextLevel).ToString();            
-            time = time.PadLeft(length / 2, '█');
+            //string time = ((int)secondsToNextLevel).ToString() + "s";            
+            string time = Tools.secToTimeString(secondsToNextLevel);
+            time = time.PadLeft((length / 2) + time.Length/2, '█');
             time = time.PadRight(length, '█');
             char[] timeChars = time.ToCharArray();
 
@@ -100,11 +110,17 @@ namespace Asciigame.Clicker
                     if (c == '█')
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        if (trainingActive)
+                            Console.ForegroundColor = barColorActive;
+                        else
+                            Console.ForegroundColor = barColorPassive;
                     }
                     else
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        if (trainingActive)
+                            Console.BackgroundColor = barColorActive;
+                        else
+                            Console.BackgroundColor = barColorPassive;
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
@@ -124,6 +140,10 @@ namespace Asciigame.Clicker
                 Console.Write(c);
                 i++;
             }
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(level.ToString().PadLeft(3));
             //Console.Write(time);
         }
     }
